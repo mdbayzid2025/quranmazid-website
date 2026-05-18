@@ -4,7 +4,8 @@ import AyahsInitializer from "../CompleteSurah/Ayahsinitializer";
 import SearchAyahCard from "./SearchAyahCard";
 
 interface SearchVerse {
-    id: number;
+    globalId: number;
+    numberInSurah: number;
     text: string;
     translation: string;
     transliteration: string;
@@ -12,8 +13,9 @@ interface SearchVerse {
 }
 
 interface SearchSurah {
-    SurahNameArabic: string;
+    surahNumber: number;
     surahEngName: string;
+    surahNameArabic: string;
     totalVerses: number;
     verses: SearchVerse[];
 }
@@ -23,36 +25,27 @@ interface SearchPageProps {
     query: string;
 }
 
-interface FlatAyah {
-    globalId: number;        // verse.id (global ayah number)
-    numberInSurah: number;   // index within this surah's matched results
-    text: string;
-    translation: string;
-    transliteration: string;
-    audio: string;
+interface FlatAyah extends SearchVerse {
+    surahNumber: number;
     surahEngName: string;
-    SurahNameArabic: string;
+    surahNameArabic: string;
 }
 
 function flattenResults(ayahsData: SearchSurah[]): FlatAyah[] {
     return ayahsData.flatMap((surah) =>
-        surah.verses.map((verse, idx) => ({
-            globalId: verse.id,
-            numberInSurah: idx + 1,
-            text: verse.text,
-            translation: verse.translation,
-            transliteration: verse.transliteration,
-            audio: verse.audio,
+        surah.verses.map((verse) => ({
+            ...verse,
+            surahNumber: surah.surahNumber,
             surahEngName: surah.surahEngName,
-            SurahNameArabic: surah.SurahNameArabic,
+            surahNameArabic: surah.surahNameArabic,
         }))
     );
 }
 
 export default function SearchPage({ ayahsData, query }: SearchPageProps) {
     const flatAyahs = flattenResults(ayahsData);
-
     const totalFound = flatAyahs.length;
+    const surahLabel = ayahsData.length === 1 ? ayahsData[0].surahEngName : "Search Results";
 
     const audioAyahs = flatAyahs.map((a) => ({
         number: a.globalId,
@@ -60,14 +53,10 @@ export default function SearchPage({ ayahsData, query }: SearchPageProps) {
         audioUrl: a.audio,
     }));
 
-    const surahLabel =
-        ayahsData.length === 1 ? ayahsData[0].surahEngName : "Search Results";
-
     return (
         <div className="flex flex-1 h-screen overflow-hidden bg-white dark:bg-zinc-950 text-gray-800 dark:text-zinc-200 transition-colors duration-200">
             <div className="flex flex-col flex-1 overflow-hidden">
                 <div className="flex-1 overflow-y-auto!">
-                    {/* Header */}
                     <div className="py-4">
                         <h1 className="text-2xl font-bold text-center text-black dark:text-zinc-100">
                             Search Results — Translation{" "}
@@ -83,7 +72,7 @@ export default function SearchPage({ ayahsData, query }: SearchPageProps) {
                     {flatAyahs.length > 0 ? (
                         flatAyahs.map((ayah) => (
                             <SearchAyahCard
-                                key={`${ayah.surahEngName}-${ayah.globalId}`}
+                                key={`${ayah.surahNumber}-${ayah.globalId}`}
                                 ayah={ayah}
                             />
                         ))
