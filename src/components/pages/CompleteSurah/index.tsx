@@ -20,18 +20,6 @@ export default function CompleteSurah({ surahData }: { surahData: SurahDetail })
 
           <SurahHeader meta={{ totalVarses: surahData?.total_verses.toString(), englishName: surahData?.transliteration, type: surahData?.type }} />
 
-          {surahData.id !== 9 && (
-            <div className="text-center py-8 border-b border-[#e5e7eb] dark:border-zinc-800">
-              <p
-                dir="rtl"
-                className="text-[#1a1a1a] dark:text-zinc-100 text-3xl md:text-4xl leading-loose"
-                style={{ fontFamily: "var(--font-kfgq), serif" }}
-              >
-                بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
-              </p>
-            </div>
-          )}
-
           <AyahsInitializer ayahs={audioAyahs} surahName={surahData.transliteration} />
 
           {surahData.verses.map((verse: Verse) => (
@@ -40,6 +28,7 @@ export default function CompleteSurah({ surahData }: { surahData: SurahDetail })
               verse={verse}
               surahId={surahData.id}
               surahName={surahData.transliteration}
+              surahNumber={surahData.id}
             />
           ))}
         </div>

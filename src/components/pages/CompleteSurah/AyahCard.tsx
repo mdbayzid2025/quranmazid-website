@@ -11,9 +11,10 @@ interface Props {
     verse: Verse;
     surahId: number;
     surahName: string;
+    surahNumber: number;
 }
 
-export default function AyahCard({ verse, surahId, surahName }: Props) {
+export default function AyahCard({ verse, surahId, surahName, surahNumber }: Props) {
     const { arabicFont, arabicSize, translationSize } = useFontSettings();
     const { play, isActive } = useAudio();
     const [bookmarked, setBookmarked] = useState(false);
@@ -34,7 +35,7 @@ export default function AyahCard({ verse, surahId, surahName }: Props) {
 
             <div className="flex flex-col items-center gap-3 pt-1 shrink-0">
                 <span className="text-[#2d6a4f] dark:text-emerald-400 font-semibold text-sm">
-                    {surahId}:{verse.id}
+                    {surahNumber}:{verse.id}
                 </span>
                 <button
                     onClick={handlePlay}

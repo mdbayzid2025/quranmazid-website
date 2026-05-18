@@ -12,8 +12,9 @@ interface FlatAyah {
     translation: string;
     transliteration: string;
     audio: string;
+    surahNumber: number;
     surahEngName: string;
-    SurahNameArabic: string;
+    surahNameArabic: string;
 }
 
 interface Props {
@@ -32,21 +33,16 @@ export default function SearchAyahCard({ ayah }: Props) {
             ayahNumber: ayah.globalId,
             numberInSurah: ayah.numberInSurah,
             surahName: ayah.surahEngName,
-            audioUrl: ayah.audio,  // ✅ direct from API response
+            audioUrl: ayah.audio,
         });
     };
 
     return (
         <div className="flex gap-3 py-8 border-b border-[#e8e8e8] dark:border-zinc-800 hover:bg-gray-50/50 dark:hover:bg-zinc-800/30 transition-colors duration-200 px-4 md:px-6">
-
             <div className="flex flex-col items-center gap-3 pt-1 shrink-0">
-                {/* Surah name + ayah id badge */}
                 <div className="text-center">
                     <p className="text-[#2d6a4f] dark:text-emerald-400 font-semibold text-xs leading-tight">
-                        {ayah.surahEngName}
-                    </p>
-                    <p className="text-[#2d6a4f] dark:text-emerald-400 font-semibold text-sm">
-                        #{ayah.globalId}
+                        {ayah.surahNumber}:{ayah.globalId}
                     </p>
                 </div>
 
@@ -76,7 +72,6 @@ export default function SearchAyahCard({ ayah }: Props) {
             </div>
 
             <div className="flex-1 min-w-0">
-                {/* Arabic */}
                 <p
                     dir="rtl"
                     lang="ar"
