@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: hsl(112 39% 36%);
+  --secondary: #99a0fd;
+  --cardBg: #15131A;
+  --inputBg: #20232C;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-cardBg: var(--cardBg);
+  --color-inputBg: var(--inputBg);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* CHANGE HERE: Target the .dark class instead of system preference */
+.dark {
+  --background: #1f2128 !important;
+  --foreground: #e2e4ea !important;
+  --cardBg: #292c35 !important;
+  --inputBg: #32353f !important;
+}
+
+@layer utilities {
+  .title {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight;
+  }
+
+  .section-subtitle {
+    @apply text-[#242424] text-[16px] lg:text-lg leading-relaxed;
+  }
+
+  .container {
+    @apply container mx-auto px-4 md:px-5;
+  }
+
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+}
+
+body {
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 500;
+  /* Optional: Smooths the transition */
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f1eeee;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
